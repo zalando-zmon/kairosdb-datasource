@@ -492,7 +492,8 @@ function (angular, _, sdk, dateMath, kbn) {
     for (i = 0; i < queries.length; i++) {
       chr   = queries.charCodeAt(i);
       hash  = ((hash << 5) - hash) + chr;
-      hash |= 0; // Convert to 32bit integer
+      // Convert to 32bit integer
+      hash |= 0;
     }
     return hash;
   }
