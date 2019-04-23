@@ -72,6 +72,9 @@ function (angular, _, sdk, dateMath, kbn) {
         console.log('=>=>=> results=', results);	
         console.log('=>=>=> lastResults=', self.lastResults);
         return results;
+      }, function(something) {
+        debugger
+        console.log(something)
       })
       
       .then(handleKairosDBQueryResponseAlias, handleQueryError);
