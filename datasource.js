@@ -11,7 +11,7 @@ function (angular, _, sdk, dateMath, kbn) {
 
   var self;
 
-  function KairosDBDatasource($rootScope, instanceSettings, $q, backendSrv, templateSrv) {
+  function KairosDBDatasource(instanceSettings, $q, backendSrv, templateSrv) {
     this.type = instanceSettings.type;
     this.url = instanceSettings.url;
     this.name = instanceSettings.name;
@@ -21,9 +21,9 @@ function (angular, _, sdk, dateMath, kbn) {
     this.templateSrv = templateSrv;
 
     this.lastResults = {};
-    $rootScope.onAppEvent('dashboard-initialized', function() {
+   /* $rootScope.onAppEvent('dashboard-initialized', function() {
      self.lastResults = {};
-   }, $rootScope);
+   }, $rootScope);*/
 
     self = this;
   }
@@ -57,7 +57,7 @@ function (angular, _, sdk, dateMath, kbn) {
       return d.promise;
     }
     
-    // hash the query to be used further while caching its results
+    // Hash the query-- It will be used further while caching its results
     let h = hashCode(JSON.stringify(queries));
     
     return this.performTimeSeriesQuery(queries, start, end)      
