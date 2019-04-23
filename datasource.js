@@ -56,21 +56,20 @@ function (angular, _, sdk, dateMath, kbn) {
       d.resolve({ data: [] });
       return d.promise;
     }
+    
+    // hash the query to be used further while caching its results
     let h = hashCode(JSON.stringify(queries));
-    return this.performTimeSeriesQuery(queries, start, end)
-      
+    
+    return this.performTimeSeriesQuery(queries, start, end)      
+    
     // ZMON-HACK remove this .then() clause to chart-data-permanence hack.  
       .then(function(results) {
-          console.log('=>=>=> update with new results');
-          self.lastResults[h] = JSON.stringify(results);
-        
-        console.log('=>=>=> results=', results);	
-        console.log('=>=>=> lastResults=', self.lastResults);
+        self.lastResults[h] = JSON.stringify(results);
         return results;
-      }, function(something) {
+      }, function() {
         return JSON.parse(self.lastResults[h] || '{}');
       })
-      
+
       .then(handleKairosDBQueryResponseAlias, handleQueryError);
   };
 
