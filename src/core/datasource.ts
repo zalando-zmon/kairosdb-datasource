@@ -81,11 +81,15 @@ export class KairosDBDatasource {
                 this.cacheResponse(hashedQuery, response.data);
                 return this.responseHandler.convertToDatapoints(response.data, aliases);
             })
-            .catch((resp) => {
+            .catch((error) => {
                 if (this.lastResult[hashedQuery]) {
                     return this.responseHandler.convertToDatapoints(this.lastResult[hashedQuery], aliases);
                 }
-                throw {message: resp.data.errors[0]};
+                if (error && error.data && error.data.message) {
+                    throw {message: error.data.message};
+                } else {
+                    throw {message: "Unknown error"};
+                }
             });
     }
 
