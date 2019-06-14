@@ -22,5 +22,10 @@
             <div class="gf-form-label gf-form-label--grow"></div>
         </div>
     </div>
-    <tags-select selected-values="ctrl.target.query.tags[tagName]" tag-name="tagName" tag-values="tagValues" ng-repeat="(tagName, tagValues) in ctrl.tags.tags"></tags-select>
+    <tags-select custom-mode="ctrl.tags.customMode" selected-values="ctrl.target.query.tags[tagName]" tag-name="tagName" tag-values="tagValues" ng-repeat="(tagName, tagValues) in ctrl.tags.tags"></tags-select>
+    <label class="gf-form-label" ng-if="ctrl.tags.customMode">
+        <a ng-click="ctrl.addTagSelect()">
+            <i class="fa fa-plus"></i>
+        </a>
+    </label>
 </div>

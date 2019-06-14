@@ -1,11 +1,12 @@
 import _ from "lodash";
 
 export class MetricTags {
-    public tags: {[key: string]: string[]} = {};
+    public tags: {[key: string]: string[]} = {}; // map[string][]string
     public size: number;
     public initialized: boolean = false;
     public combinations: number = 0;
     public multiValuedTags: string[];
+    public customMode: boolean = false;
 
     public updateTags(tags) {
         this.tags = tags;

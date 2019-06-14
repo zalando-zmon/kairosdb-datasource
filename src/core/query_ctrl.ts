@@ -35,6 +35,11 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         this.initializeTags(this.target.query.metricName);
     }
 
+    public addTagSelect() {
+        const tags = Object.assign(this.tags.tags, {"": ["" , ""]});
+        this.tags.updateTags(tags);
+    }
+
     private onTargetChange(newTarget, oldTarget) {
         if (this.isTargetChanged(newTarget, oldTarget) && this.targetValidator.isValidTarget(newTarget)) {
             this.refresh();
@@ -71,6 +76,7 @@ export class KairosDBQueryCtrl extends QueryCtrl {
                         const defaultTags = {
                             "": ["", ""]
                         };
+                        this.tags.customMode = true;
                         this.tags.updateTags(defaultTags);
                     }
                 );

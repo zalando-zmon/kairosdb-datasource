@@ -4,6 +4,7 @@ export class TagsSelectCtrl {
     public tagValues: string[];
     public selectedValues: string[];
     public segments: any[];
+    public customMode: boolean;
 
     /** @ngInject **/
     constructor(private uiSegmentSrv) {
@@ -43,7 +44,8 @@ export function TagsSelectDirective() {
         scope: {
             selectedValues: "=",
             tagName: "=",
-            tagValues: "="
+            tagValues: "=",
+            customMode: "=",
         },
         templateUrl: "public/plugins/grafana-kairosdb-datasource/partials/tags.select.html"
     };
