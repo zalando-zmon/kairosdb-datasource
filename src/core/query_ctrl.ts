@@ -69,12 +69,7 @@ export class KairosDBQueryCtrl extends QueryCtrl {
                             this.tagsInitializationError = "Unknown error";
                         }
                         const defaultTags = {
-                            key: ["", ""],
-                            entity: ["", ""],
-                            application_id: ["", ""],
-                            stack_name: ["", ""],
-                            application: ["", ""],
-                            namespace : ["", ""],
+                            "": ["", ""]
                         };
                         this.tags.updateTags(defaultTags);
                     }
