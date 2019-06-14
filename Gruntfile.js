@@ -38,7 +38,22 @@ module.exports = function (grunt) {
                 options: {spawn: false}
             }
         },
-
+        tslint: {
+            options: {
+                configuration: "tslint.json"
+            },
+            files: {
+                src: [
+                    "src/**/*.ts"
+                ]
+            },
+            test: {
+                src: [
+                    "specs/*.ts",
+                    "specs/**/*.ts"
+                ]
+            }
+        },
         typescript: {
             build: {
                 src: [
@@ -84,7 +99,7 @@ module.exports = function (grunt) {
         "clean:dist",
         "copy",
         "packageModules",
-
+        "tslint",
         "typescript:build",
         "babel",
         "karma",
