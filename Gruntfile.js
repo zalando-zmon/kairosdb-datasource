@@ -38,6 +38,22 @@ module.exports = function (grunt) {
                 options: {spawn: false}
             }
         },
+        tslint: {
+            options: {
+                configuration: "tslint.json"
+            },
+            files: {
+                src: [
+                    "src/**/*.ts"
+                ]
+            },
+            test: {
+                src: [
+                    "specs/*.ts",
+                    "specs/**/*.ts"
+                ]
+            }
+        },
         typescript: {
             build: {
                 src: [
@@ -53,8 +69,8 @@ module.exports = function (grunt) {
                     emitDecoratorMetadata: true,
                     experimentalDecorators: true,
                     sourceMap: true,
-                },
-                flags: ["force"]
+                    noImplicitAny: false
+                }
             }
         },
         babel: {
@@ -71,6 +87,11 @@ module.exports = function (grunt) {
                     ext: ".js"
                 }]
             }
+        },
+        karma: {
+            unit: {
+                configFile: "karma.conf.js"
+            }
         }
     });
 
@@ -78,8 +99,10 @@ module.exports = function (grunt) {
         "clean:dist",
         "copy",
         "packageModules",
+        "tslint",
         "typescript:build",
         "babel",
+        "karma",
         "clean:post"
     ]);
 };

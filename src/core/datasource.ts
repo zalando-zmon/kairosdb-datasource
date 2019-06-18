@@ -85,6 +85,9 @@ export class KairosDBDatasource {
                 if (this.lastResult[hashedQuery]) {
                     return this.responseHandler.convertToDatapoints(this.lastResult[hashedQuery], aliases);
                 }
+                if (resp.cancelled) {
+                    throw {message: "query cancelled"};
+                }
                 throw {message: resp.data.errors[0]};
             });
     }

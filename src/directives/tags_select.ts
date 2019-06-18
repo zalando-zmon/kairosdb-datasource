@@ -5,13 +5,16 @@ export class TagsSelectCtrl {
     public tagValues: string[];
     public selectedValues: string[];
     public segments: any[];
-    public tags: MetricTags
+    public tags: MetricTags;
     public tagName: string;
-    
+
     /** @ngInject **/
     constructor(private uiSegmentSrv) {
         this.selectedValues = this.selectedValues || [];
-        if (this.tagValues.length > 1) {
+        if (this.tagValues.length === 1 && _.isEmpty(this.selectedValues)) {
+            this.selectedValues = this.tagValues;
+        }
+        if (this.tagValues.length > 0) {
             this.segments = this.selectedValues
                 .map((tagValue) => this.uiSegmentSrv.newSegment(tagValue));
             this.segments.push(this.uiSegmentSrv.newPlusButton());
@@ -31,7 +34,7 @@ export class TagsSelectCtrl {
     }
 
     public removeTag(): void {
-        delete this.tags[this.tagName]
+        delete this.tags[this.tagName];
     }
 
     private update(): void {

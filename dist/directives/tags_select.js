@@ -29,7 +29,10 @@ System.register(["lodash"], function(exports_1) {
                     var _this = this;
                     this.uiSegmentSrv = uiSegmentSrv;
                     this.selectedValues = this.selectedValues || [];
-                    if (this.tagValues.length > 1) {
+                    if (this.tagValues.length === 1 && lodash_1.default.isEmpty(this.selectedValues)) {
+                        this.selectedValues = this.tagValues;
+                    }
+                    if (this.tagValues.length > 0) {
                         this.segments = this.selectedValues
                             .map(function (tagValue) { return _this.uiSegmentSrv.newSegment(tagValue); });
                         this.segments.push(this.uiSegmentSrv.newPlusButton());
