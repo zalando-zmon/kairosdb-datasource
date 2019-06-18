@@ -1,10 +1,13 @@
 import _ from "lodash";
+import { MetricTags } from "../beans/request/metric_tags";
 
 export class TagsSelectCtrl {
     public tagValues: string[];
     public selectedValues: string[];
     public segments: any[];
-
+    public tags: MetricTags
+    public tagName: string;
+    
     /** @ngInject **/
     constructor(private uiSegmentSrv) {
         this.selectedValues = this.selectedValues || [];
@@ -27,6 +30,10 @@ export class TagsSelectCtrl {
         this.update();
     }
 
+    public removeTag(): void {
+        delete this.tags[this.tagName]
+    }
+
     private update(): void {
         this.selectedValues = this.segments
             .map((tagSegment) => tagSegment.value)
@@ -43,7 +50,8 @@ export function TagsSelectDirective() {
         scope: {
             selectedValues: "=",
             tagName: "=",
-            tagValues: "="
+            tagValues: "=",
+            tags: "=",
         },
         templateUrl: "public/plugins/grafana-kairosdb-datasource/partials/tags.select.html"
     };

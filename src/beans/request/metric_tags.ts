@@ -6,6 +6,7 @@ export class MetricTags {
     public initialized: boolean = false;
     public combinations: number = 0;
     public multiValuedTags: string[];
+    public custom: boolean;
 
     public updateTags(tags) {
         this.tags = tags;

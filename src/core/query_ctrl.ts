@@ -19,6 +19,7 @@ export class KairosDBQueryCtrl extends QueryCtrl {
     public aggregators: Aggregator[] = AGGREGATORS;
     public tagsInitializationError: string = undefined;
     private targetValidator: TargetValidator = new TargetValidator();
+    public customTagName: string = ''
     private tags: MetricTags;
     private legacyTargetConverter: LegacyTargetConverter = new LegacyTargetConverter();
 
@@ -27,6 +28,7 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         super($scope, $injector);
         this.datasource.initialize();
         $scope.$watch("ctrl.target.query", this.onTargetChange.bind(this), true);
+        $scope.$watch("ctrl.tags.tags", this.onTagsChange.bind(this), true);
         $scope.$watch("ctrl.target.query.metricName", this.onMetricNameChanged.bind(this));
         if (this.legacyTargetConverter.isApplicable(this.target)) {
             this.target.query = this.legacyTargetConverter.convert(this.target);
@@ -49,6 +51,11 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         this.initializeTags(newMetricName);
     }
 
+    private onTagsChange(newTags, oldTags) {
+        this.tags.updateTags(newTags);
+    }
+
+
     private buildNewTarget(metricName) {
         const target = new KairosDBTarget();
         target.metricName = metricName;
@@ -64,15 +71,8 @@ export class KairosDBQueryCtrl extends QueryCtrl {
                     (tags) => this.tags.updateTags(tags),
                     (error) => {
                         this.tagsInitializationError = error.data.errors[0];
-                        const defaultTags = {
-                            key: ["", ""],
-                            entity: ["", ""],
-                            application_id: ["", ""],
-                            stack_name: ["", ""],
-                            application: ["", ""],
-                            namespace : ["", ""],
-                        };
-                        this.tags.updateTags(defaultTags);
+                        this.tags.custom = true;
+                        this.tags.updateTags({});
                     }
                 );
         }
@@ -84,5 +84,18 @@ export class KairosDBQueryCtrl extends QueryCtrl {
 
     private clear(): void {
         this.tagsInitializationError = undefined;
+    }
+
+    private addCustom(): void {
+        let keys = [];
+        keys = Object.keys(this.tags.tags).map(key => {
+            return {key, value: this.tags.tags[key]};
+        });
+        keys.push({key: this.customTagName, value: ['', '']});
+
+        let tags = keys.reduce((acc, curr) => {
+            return Object.assign(acc, {[curr.key]: curr.value});
+        }, {});
+        this.tags.updateTags(tags);
     }
 }

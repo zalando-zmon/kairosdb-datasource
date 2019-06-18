@@ -42,9 +42,11 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                     this.aggregators = aggregators_1.AGGREGATORS;
                     this.tagsInitializationError = undefined;
                     this.targetValidator = new target_validator_1.TargetValidator();
+                    this.customTagName = '';
                     this.legacyTargetConverter = new legacy_target_converter_1.LegacyTargetConverter();
                     this.datasource.initialize();
                     $scope.$watch("ctrl.target.query", this.onTargetChange.bind(this), true);
+                    $scope.$watch("ctrl.tags.tags", this.onTagsChange.bind(this), true);
                     $scope.$watch("ctrl.target.query.metricName", this.onMetricNameChanged.bind(this));
                     if (this.legacyTargetConverter.isApplicable(this.target)) {
                         this.target.query = this.legacyTargetConverter.convert(this.target);
@@ -64,6 +66,9 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                     this.target.query = this.buildNewTarget(newMetricName);
                     this.initializeTags(newMetricName);
                 };
+                KairosDBQueryCtrl.prototype.onTagsChange = function (newTags, oldTags) {
+                    this.tags.updateTags(newTags);
+                };
                 KairosDBQueryCtrl.prototype.buildNewTarget = function (metricName) {
                     var target = new target_1.KairosDBTarget();
                     target.metricName = metricName;
@@ -75,7 +80,11 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                     if (metricName) {
                         this.tags = new metric_tags_1.MetricTags();
                         this.datasource.getMetricTags(metricName)
-                            .then(function (tags) { return _this.tags.updateTags(tags); }, function (error) { return _this.tagsInitializationError = error.data.message; });
+                            .then(function (tags) { return _this.tags.updateTags(tags); }, function (error) {
+                            _this.tagsInitializationError = error.data.errors[0];
+                            _this.tags.custom = true;
+                            _this.tags.updateTags({});
+                        });
                     }
                 };
                 KairosDBQueryCtrl.prototype.isTargetChanged = function (newTarget, oldTarget) {
@@ -83,6 +92,19 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                 };
                 KairosDBQueryCtrl.prototype.clear = function () {
                     this.tagsInitializationError = undefined;
+                };
+                KairosDBQueryCtrl.prototype.addCustom = function () {
+                    var _this = this;
+                    var keys = [];
+                    keys = Object.keys(this.tags.tags).map(function (key) {
+                        return { key: key, value: _this.tags.tags[key] };
+                    });
+                    keys.push({ key: this.customTagName, value: ['', ''] });
+                    var tags = keys.reduce(function (acc, curr) {
+                        return Object.assign(acc, (_a = {}, _a[curr.key] = curr.value, _a));
+                        var _a;
+                    }, {});
+                    this.tags.updateTags(tags);
                 };
                 KairosDBQueryCtrl.templateUrl = "partials/query.editor.html";
                 return KairosDBQueryCtrl;

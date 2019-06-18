@@ -10,7 +10,8 @@ System.register(["lodash"], function(exports_1) {
             scope: {
                 selectedValues: "=",
                 tagName: "=",
-                tagValues: "="
+                tagValues: "=",
+                tags: "=",
             },
             templateUrl: "public/plugins/grafana-kairosdb-datasource/partials/tags.select.html"
         };
@@ -43,6 +44,9 @@ System.register(["lodash"], function(exports_1) {
                 TagsSelectCtrl.prototype.remove = function (segment) {
                     this.segments = lodash_1.default.without(this.segments, segment);
                     this.update();
+                };
+                TagsSelectCtrl.prototype.removeTag = function () {
+                    delete this.tags[this.tagName];
                 };
                 TagsSelectCtrl.prototype.update = function () {
                     this.selectedValues = this.segments
