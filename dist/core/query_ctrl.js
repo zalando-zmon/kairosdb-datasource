@@ -106,17 +106,11 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                     this.tagsInitializationError = undefined;
                 };
                 KairosDBQueryCtrl.prototype.addCustomTag = function () {
-                    var _this = this;
-                    var keys = [];
-                    keys = Object.keys(this.tags.tags).map(function (key) {
-                        return { key: key, value: _this.tags.tags[key] };
-                    });
-                    keys.push({ key: this.customTagName, value: ["", ""] });
-                    var tags = keys.reduce(function (acc, curr) {
-                        return Object.assign(acc, (_a = {}, _a[curr.key] = curr.value, _a));
-                        var _a;
-                    }, {});
-                    this.tags.updateTags(tags);
+                    var tags = this.tags.tags;
+                    if (!tags[this.customTagName]) {
+                        tags[this.customTagName] = [];
+                        this.tags.updateTags(tags);
+                    }
                     this.customTagName = "";
                 };
                 KairosDBQueryCtrl.templateUrl = "partials/query.editor.html";

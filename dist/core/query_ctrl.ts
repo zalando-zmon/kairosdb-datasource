@@ -97,17 +97,11 @@ export class KairosDBQueryCtrl extends QueryCtrl {
     }
 
     private addCustomTag(): void {
-        let keys = [];
-        keys = Object.keys(this.tags.tags).map((key) => {
-            return {key, value: this.tags.tags[key]};
-        });
-        keys.push({key: this.customTagName, value: ["", ""]});
-
-        const tags = keys.reduce((acc, curr) => {
-            return Object.assign(acc, {[curr.key]: curr.value});
-        }, {});
-
-        this.tags.updateTags(tags);
+        const tags = this.tags.tags;
+        if (!tags[this.customTagName]) {
+            tags[this.customTagName] = [];
+            this.tags.updateTags(tags);
+        }
         this.customTagName = "";
     }
 }
