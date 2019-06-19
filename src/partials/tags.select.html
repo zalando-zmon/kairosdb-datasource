@@ -23,14 +23,16 @@
             <a ng-if="ctrl.tagValues.length === 0">{{ctrl.tagName}}</a>
         </label>
     </div>
-    <div class="gf-form">
-        <label class="gf-form-label">
+
+    <div class="gf-form" ng-if="$first">
+        <label class="gf-form-label width-2">
             <a ng-click="ctrl.removeTag()">
                 <i class="fa fa-times"></i>
             </a>
         </label>
     </div>
-    <div class="gf-form" ng-class="{'offset-width-18': !$first}">
+
+    <div class="gf-form" ng-class="{'offset-width-20': !$first}">
         <tag-input segment="segment" tag-values="ctrl.tagValues" on-change="ctrl.onChange()"></tag-input>
         <div class="gf-form-label" ng-if="!$last">
             <a ng-click="ctrl.remove(segment)">

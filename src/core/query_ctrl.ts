@@ -86,7 +86,7 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         this.tagsInitializationError = undefined;
     }
 
-    private addCustom(): void {
+    private addCustomTag(): void {
         let keys = [];
         keys = Object.keys(this.tags.tags).map(key => {
             return {key, value: this.tags.tags[key]};
@@ -96,6 +96,8 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         let tags = keys.reduce((acc, curr) => {
             return Object.assign(acc, {[curr.key]: curr.value});
         }, {});
+        
         this.tags.updateTags(tags);
+        this.customTagName = "";
     }
 }
