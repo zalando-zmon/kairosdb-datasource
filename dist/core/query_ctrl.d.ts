@@ -4,8 +4,8 @@ export declare class KairosDBQueryCtrl extends QueryCtrl {
     static templateUrl: string;
     aggregators: Aggregator[];
     tagsInitializationError: string;
-    private targetValidator;
     customTagName: string;
+    private targetValidator;
     private tags;
     private legacyTargetConverter;
     /** @ngInject **/

@@ -41,8 +41,8 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                     _super.call(this, $scope, $injector);
                     this.aggregators = aggregators_1.AGGREGATORS;
                     this.tagsInitializationError = undefined;
+                    this.customTagName = "";
                     this.targetValidator = new target_validator_1.TargetValidator();
-                    this.customTagName = '';
                     this.legacyTargetConverter = new legacy_target_converter_1.LegacyTargetConverter();
                     this.datasource.initialize();
                     $scope.$watch("ctrl.target.query", this.onTargetChange.bind(this), true);
@@ -99,7 +99,7 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                     keys = Object.keys(this.tags.tags).map(function (key) {
                         return { key: key, value: _this.tags.tags[key] };
                     });
-                    keys.push({ key: this.customTagName, value: ['', ''] });
+                    keys.push({ key: this.customTagName, value: ["", ""] });
                     var tags = keys.reduce(function (acc, curr) {
                         return Object.assign(acc, (_a = {}, _a[curr.key] = curr.value, _a));
                         var _a;

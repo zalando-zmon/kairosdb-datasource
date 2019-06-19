@@ -96,6 +96,9 @@ System.register(["lodash", "../beans/function", "../beans/request/legacy_target_
                         if (_this.lastResult[hashedQuery]) {
                             return _this.responseHandler.convertToDatapoints(_this.lastResult[hashedQuery], aliases);
                         }
+                        if (resp.cancelled) {
+                            throw { message: "query cancelled" };
+                        }
                         throw { message: resp.data.errors[0] };
                     });
                 };

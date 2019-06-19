@@ -18,8 +18,8 @@ export class KairosDBQueryCtrl extends QueryCtrl {
 
     public aggregators: Aggregator[] = AGGREGATORS;
     public tagsInitializationError: string = undefined;
+    public customTagName: string = "";
     private targetValidator: TargetValidator = new TargetValidator();
-    public customTagName: string = ''
     private tags: MetricTags;
     private legacyTargetConverter: LegacyTargetConverter = new LegacyTargetConverter();
 
@@ -55,7 +55,6 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         this.tags.updateTags(newTags);
     }
 
-
     private buildNewTarget(metricName) {
         const target = new KairosDBTarget();
         target.metricName = metricName;
@@ -88,12 +87,12 @@ export class KairosDBQueryCtrl extends QueryCtrl {
 
     private addCustomTag(): void {
         let keys = [];
-        keys = Object.keys(this.tags.tags).map(key => {
+        keys = Object.keys(this.tags.tags).map((key) => {
             return {key, value: this.tags.tags[key]};
         });
-        keys.push({key: this.customTagName, value: ['', '']});
+        keys.push({key: this.customTagName, value: ["", ""]});
 
-        let tags = keys.reduce((acc, curr) => {
+        const tags = keys.reduce((acc, curr) => {
             return Object.assign(acc, {[curr.key]: curr.value});
         }, {});
         
