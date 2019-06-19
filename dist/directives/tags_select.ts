@@ -14,11 +14,8 @@ export class TagsSelectCtrl {
         if (this.tagValues.length === 1 && _.isEmpty(this.selectedValues)) {
             this.selectedValues = this.tagValues;
         }
-        if (this.tagValues.length > 0) {
-            this.segments = this.selectedValues
-                .map((tagValue) => this.uiSegmentSrv.newSegment(tagValue));
-            this.segments.push(this.uiSegmentSrv.newPlusButton());
-        }
+        this.segments = this.selectedValues.map((tagValue) => this.uiSegmentSrv.newSegment({value: tagValue, cssClass: "query-part"}));
+        this.segments.push(this.uiSegmentSrv.newPlusButton());
     }
 
     public onChange(): void {

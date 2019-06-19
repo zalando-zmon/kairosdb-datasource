@@ -17,5 +17,5 @@ export declare class KairosDBQueryCtrl extends QueryCtrl {
     private initializeTags(metricName);
     private isTargetChanged(newTarget, oldTarget);
     private clear();
-    private addCustom();
+    private addCustomTag();
 }

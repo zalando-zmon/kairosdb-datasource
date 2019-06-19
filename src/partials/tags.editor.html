@@ -22,21 +22,21 @@
             <div class="gf-form-label gf-form-label--grow"></div>
         </div>
     </div>
-    <tags-select 
-        ng-if="ctrl.tags.tags !== null" 
-        ng-repeat="(tagName, tagValues) in ctrl.tags.tags" 
+    <tags-select
+        ng-if="ctrl.tags.tags !== null"
+        ng-repeat="(tagName, tagValues) in ctrl.tags.tags"
         selected-values="ctrl.target.query.tags[tagName]"
         tag-name="tagName"
-        tag-values="tagValues" 
+        tag-values="tagValues"
         tags="ctrl.tags.tags"
     >
     </tags-select>
 
-    <div class="gf-form" ng-if="ctrl.tags.custom === true">
-        <input 
-            type="text" 
-            class="gf-form-input offset-width-8 width-10" 
-            ng-model="ctrl.customTagName"  
+    <div class="gf-form">
+        <input
+            type="text"
+            class="gf-form-input offset-width-8 width-10"
+            ng-model="ctrl.customTagName"
         />
         <label class="gf-form-label">
             <a ng-click="ctrl.addCustomTag(); ctrl.onChange()">

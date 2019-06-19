@@ -67,11 +67,22 @@ export class KairosDBQueryCtrl extends QueryCtrl {
             this.tags = new MetricTags();
             this.datasource.getMetricTags(metricName)
                 .then(
-                    (tags) => this.tags.updateTags(tags),
+                    (tags) => {
+                        Object.keys(this.target.query.tags).map((key) => {
+                            tags[key] = tags[key] || [];
+                        });
+                        this.tags.updateTags(tags);
+                    },
                     (error) => {
-                        this.tagsInitializationError = error.data.errors[0];
-                        this.tags.custom = true;
-                        this.tags.updateTags({});
+                        if (error && error.data && error.data.message) {
+                            this.tagsInitializationError = error.data.message;
+                        } else if (error.cancelled) {
+                            this.tagsInitializationError = "Query was cancelled";
+                        } else {
+                            this.tagsInitializationError = "Unknown error";
+                        }
+
+                        this.tags.updateTags(this.target.query.tags);
                     }
                 );
         }
@@ -85,7 +96,7 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         this.tagsInitializationError = undefined;
     }
 
-    private addCustom(): void {
+    private addCustomTag(): void {
         let keys = [];
         keys = Object.keys(this.tags.tags).map((key) => {
             return {key, value: this.tags.tags[key]};
@@ -95,6 +106,8 @@ export class KairosDBQueryCtrl extends QueryCtrl {
         const tags = keys.reduce((acc, curr) => {
             return Object.assign(acc, {[curr.key]: curr.value});
         }, {});
+
         this.tags.updateTags(tags);
+        this.customTagName = "";
     }
 }

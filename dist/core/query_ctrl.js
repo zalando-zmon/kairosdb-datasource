@@ -80,10 +80,22 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                     if (metricName) {
                         this.tags = new metric_tags_1.MetricTags();
                         this.datasource.getMetricTags(metricName)
-                            .then(function (tags) { return _this.tags.updateTags(tags); }, function (error) {
-                            _this.tagsInitializationError = error.data.errors[0];
-                            _this.tags.custom = true;
-                            _this.tags.updateTags({});
+                            .then(function (tags) {
+                            Object.keys(_this.target.query.tags).map(function (key) {
+                                tags[key] = tags[key] || [];
+                            });
+                            _this.tags.updateTags(tags);
+                        }, function (error) {
+                            if (error && error.data && error.data.message) {
+                                _this.tagsInitializationError = error.data.message;
+                            }
+                            else if (error.cancelled) {
+                                _this.tagsInitializationError = "Query was cancelled";
+                            }
+                            else {
+                                _this.tagsInitializationError = "Unknown error";
+                            }
+                            _this.tags.updateTags(_this.target.query.tags);
                         });
                     }
                 };
@@ -93,7 +105,7 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                 KairosDBQueryCtrl.prototype.clear = function () {
                     this.tagsInitializationError = undefined;
                 };
-                KairosDBQueryCtrl.prototype.addCustom = function () {
+                KairosDBQueryCtrl.prototype.addCustomTag = function () {
                     var _this = this;
                     var keys = [];
                     keys = Object.keys(this.tags.tags).map(function (key) {
@@ -105,6 +117,7 @@ System.register(["app/plugins/sdk", "../beans/aggregators/aggregators", "../bean
                         var _a;
                     }, {});
                     this.tags.updateTags(tags);
+                    this.customTagName = "";
                 };
                 KairosDBQueryCtrl.templateUrl = "partials/query.editor.html";
                 return KairosDBQueryCtrl;
