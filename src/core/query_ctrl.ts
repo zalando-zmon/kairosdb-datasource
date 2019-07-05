@@ -81,7 +81,6 @@ export class KairosDBQueryCtrl extends QueryCtrl {
                         } else {
                             this.tagsInitializationError = "Unknown error";
                         }
-
                         this.tags.updateTags(this.target.query.tags);
                     }
                 );
@@ -94,14 +93,5 @@ export class KairosDBQueryCtrl extends QueryCtrl {
 
     private clear(): void {
         this.tagsInitializationError = undefined;
-    }
-
-    private addCustomTag(): void {
-        const tags = this.tags.tags;
-        if (this.customTagName && !tags[this.customTagName]) {
-            tags[this.customTagName] = [];
-            this.tags.updateTags(tags);
-        }
-        this.customTagName = "";
     }
 }
