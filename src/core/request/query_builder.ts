@@ -108,12 +108,19 @@ export class KairosDBQueryBuilder {
         return this.url + this.apiPath + urlStub;
     }
 
-    private buildTagsRequestBody(metricName, filters = {}) {
+    private buildTagsRequestBody(metricName, filters = {}): any {
+        if (this.templateSrv.timeRange) {
+            return {
+                cache_time: 0,
+                metrics: [{name: metricName, tags: filters}],
+                start_absolute: this.templateSrv.timeRange.from.unix() * 1000,
+                end_absolute: this.templateSrv.timeRange.to.unix() * 1000,
+            };
+        }
         return {
             cache_time: 0,
+            start_absolute: 0,
             metrics: [{name: metricName, tags: filters}],
-            start_absolute: this.templateSrv.timeRange.from.unix() * 1000,
-            end_absolute: this.templateSrv.timeRange.to.unix() * 1000,
         };
     }
 }
