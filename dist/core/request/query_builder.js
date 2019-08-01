@@ -104,11 +104,18 @@ System.register(["lodash", "../../beans/request/datapoints_query", "../../beans/
                 };
                 KairosDBQueryBuilder.prototype.buildTagsRequestBody = function (metricName, filters) {
                     if (filters === void 0) { filters = {}; }
+                    if (this.templateSrv.timeRange) {
+                        return {
+                            cache_time: 0,
+                            metrics: [{ name: metricName, tags: filters }],
+                            start_absolute: this.templateSrv.timeRange.from.unix() * 1000,
+                            end_absolute: this.templateSrv.timeRange.to.unix() * 1000,
+                        };
+                    }
                     return {
                         cache_time: 0,
+                        start_absolute: 0,
                         metrics: [{ name: metricName, tags: filters }],
-                        start_absolute: this.templateSrv.timeRange.from.unix() * 1000,
-                        end_absolute: this.templateSrv.timeRange.to.unix() * 1000,
                     };
                 };
                 return KairosDBQueryBuilder;
