@@ -1,8 +1,7 @@
 <div class="gf-form-inline" ng-repeat="segment in ctrl.segments">
     <div class="gf-form" ng-if="$first">
         <label class="gf-form-label offset-width-8 width-8" ng-class="{'inactiveTag': ctrl.tagValues.length === 1}">
-            <a ng-if="ctrl.tagValues.length > 0">{{ctrl.tagName}}</a>
-            <a ng-if="ctrl.tagValues.length === 0">{{ctrl.tagName}}</a>
+            <a>{{ctrl.tagName}}</a>
         </label>
     </div>
 
