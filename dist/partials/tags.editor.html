@@ -1,4 +1,4 @@
-<div class="gf-form-group" ng-if="ctrl.target.query.metricName">
+<div ng-if="ctrl.target.query.metricName">
     <div class="gf-form-inline">
         <div class="gf-form">
             <label class="gf-form-label query-keyword width-8">
@@ -15,7 +15,7 @@
         </div>
         <div class="gf-form" ng-if="ctrl.tagsInitializationError">
             <label class="gf-form-label" style="color: red">
-                <strong>Unable to load tags: {{ctrl.tagsInitializationError}} . Using default tags</strong>
+                <strong>Unable to load tag suggestions: {{ctrl.tagsInitializationError}}. Please provide tags manually.</strong>
             </label>
         </div>
         <div class="gf-form gf-form--grow">
