@@ -1,3 +1,11 @@
+ZMON source code on GitHub is no longer in active development. Zalando will no longer actively review issues or merge pull-requests.
+
+ZMON is still being used at Zalando and serves us well for many purposes. We are now deeper into our observability journey and understand better that we need other telemetry sources and tools to elevate our understanding of the systems we operate. We support the [OpenTelemetry](https://opentelemetry.io/) initiative and recommended others starting their journey to begin there.
+
+If members of the community are interested in continuing developing ZMON, consider forking it. Please review the licence before you do.
+
+# kairosdb-datasource
+
 Starting in Grafana 3.x the KairosDB data source is no longer included out of the box.
 
 But it is easy to install this plugin!
